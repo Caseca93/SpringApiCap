@@ -1,4 +1,4 @@
-package org.github.caseca.repository;
+package org.github.caseca.domain.repository;
 
 import org.github.caseca.domain.entity.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;

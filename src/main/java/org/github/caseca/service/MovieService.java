@@ -1,12 +1,18 @@
 package org.github.caseca.service;
 
-import org.github.caseca.repository.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.github.caseca.domain.entity.Movie;
 
-@Service
-public class MovieService {
+import java.util.List;
+import java.util.Optional;
 
-    @Autowired
-    private MovieRepository repository;
+public interface MovieService {
+    Movie save (Movie movie);
+
+    void update(Long id, Movie movie);
+
+    void delete(Long id);
+
+    List<Movie> find (Movie filter);
+
+    Movie getMovieById (Long id);
 }
