@@ -23,7 +23,6 @@ public class Movie {
     private String name;
 
     @Column(name = "url", length = 100)
-    @JsonIgnore
     private String url;
 
     @Column(name = "gender", length = 100)
