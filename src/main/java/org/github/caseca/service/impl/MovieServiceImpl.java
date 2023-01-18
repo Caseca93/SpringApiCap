@@ -3,6 +3,7 @@ package org.github.caseca.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.github.caseca.domain.entity.Movie;
 import org.github.caseca.domain.repository.MovieRepository;
+import org.github.caseca.exception.RegraNegocioException;
 import org.github.caseca.service.MovieService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -30,7 +31,7 @@ public class MovieServiceImpl implements MovieService {
                     movie.setId(movieExist.getId());
                     movieRepository.save(movie);
                     return movieExist;
-                }).orElseThrow( () -> new ResponseStatusException (HttpStatus.NOT_FOUND, "Filme não encontrado"));
+                }).orElseThrow( () -> new RegraNegocioException("Filme não encontrado!"));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class MovieServiceImpl implements MovieService {
                 .map( movie -> {
                     movieRepository.delete(movie);
                     return movie;
-                }).orElseThrow( () -> new ResponseStatusException (HttpStatus.NOT_FOUND, "Filme não encontrado"));
+                }).orElseThrow( () -> new RegraNegocioException("Filme não encontrado!"));
     }
 
     @Override
@@ -50,12 +51,15 @@ public class MovieServiceImpl implements MovieService {
                 .withStringMatcher( ExampleMatcher.StringMatcher.CONTAINING );
 
         Example example = Example.of(filter, matcher);
+        if(movieRepository.findAll(example).isEmpty()){
+            throw new RegraNegocioException("Nenhum filme cadastrado!");
+        }
         return movieRepository.findAll(example);
     }
 
     @Override
     public Movie getMovieById(Long id) {
         return  movieRepository.findById(id)
-                .orElseThrow( () -> new ResponseStatusException (HttpStatus.NOT_FOUND, "Filme não encontrado"));
+                .orElseThrow( () -> new RegraNegocioException("Filme não encontrado!"));
     }
 }
