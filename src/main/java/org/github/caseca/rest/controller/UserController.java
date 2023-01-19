@@ -1,6 +1,7 @@
 package org.github.caseca.rest.controller;
 
 import org.github.caseca.domain.entity.User;
+import org.github.caseca.rest.controller.dto.UserExitDTO;
 import org.github.caseca.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<User> listAllUsers() {
+    public List<UserExitDTO> listAllUsers() {
         return userService.listAllUsers();
     }
 

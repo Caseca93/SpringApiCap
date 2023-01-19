@@ -1,7 +1,7 @@
 package org.github.caseca.rest.controller;
 
 import org.github.caseca.exception.MovieNotFoundException;
-import org.github.caseca.exception.RegraDeNegocioExecpetion;
+import org.github.caseca.exception.RegraDeNegocioExecption;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,9 +17,9 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(mensagemErro);
     }
 
-    @ExceptionHandler(RegraDeNegocioExecpetion.class)
+    @ExceptionHandler(RegraDeNegocioExecption.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiErrors handleRegraNegocioException(RegraDeNegocioExecpetion ex){
+    public ApiErrors handleRegraNegocioException(RegraDeNegocioExecption ex){
         String mensagemErro = ex.getMessage();
         return new ApiErrors(mensagemErro);
     }

@@ -3,12 +3,16 @@ package org.github.caseca.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.github.caseca.domain.entity.User;
 import org.github.caseca.domain.repository.UserRepository;
-import org.github.caseca.exception.RegraDeNegocioExecpetion;
+import org.github.caseca.exception.RegraDeNegocioExecption;
+import org.github.caseca.rest.controller.dto.UserExitDTO;
 import org.github.caseca.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +26,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listAllUsers() {
-        return userRepository.findAll();
+    public List<UserExitDTO> listAllUsers() {
+      return userRepository
+              .findAll()
+              .stream()
+              .map(user -> {
+                  UserExitDTO userExitDTO = new UserExitDTO();
+                  userExitDTO.setId(user.getId());
+                  userExitDTO.setName(user.getName());
+                  userExitDTO.setEmail(user.getEmail());
+                  return userExitDTO;
+              }).collect(Collectors.toList());
     }
 
     @Override
@@ -33,7 +46,7 @@ public class UserServiceImpl implements UserService {
             user.setId(user1.getId());
             userRepository.save(user);
             return user;
-        }).orElseThrow(() -> new RegraDeNegocioExecpetion("Código do usuario inválido"));
+        }).orElseThrow(() -> new RegraDeNegocioExecption("Código do usuario inválido"));
     }
 
     @Override
@@ -42,6 +55,6 @@ public class UserServiceImpl implements UserService {
         userExist.map(user -> {
             userRepository.deleteById(id);
             return user;
-        }).orElseThrow(() -> new RegraDeNegocioExecpetion("Código do usuario inválido"));
+        }).orElseThrow(() -> new RegraDeNegocioExecption("Código do usuario inválido"));
     }
 }
